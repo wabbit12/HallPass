@@ -10,7 +10,22 @@ ion-content {
   position: relative;
   height: 100%;
 }
+.custom-alert {
+  .alert-input {
+    // Ensure inputs stay focused
+    &:focus {
+      outline: none;
+      box-shadow: none;
+    }
+  }
 
+  // Prevent default browser focus styles
+  input {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-focus-ring-color: transparent;
+    outline: none;
+  }
+}
 // Header Gradient Half Circle
 .header-gradient {
   background: linear-gradient(to right, $maroon-gradient-start, $maroon-gradient-end);

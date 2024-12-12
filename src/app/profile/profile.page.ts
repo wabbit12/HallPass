@@ -19,7 +19,7 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     // For now, use hardcoded values
-    this.userEmail = 'user@example.com';
+    this.userEmail = 'user@email.com';
     this.userName = 'User Name';
     this.userCourse = 'Computer Science';
   }
@@ -27,18 +27,27 @@ export class ProfilePage implements OnInit {
   async editProfile() {
     const alert = await this.alertController.create({
       header: 'Edit Profile',
+      cssClass: 'custom-alert', // Add a custom CSS class
       inputs: [
         {
           name: 'name',
           type: 'text',
           placeholder: 'Name',
-          value: this.userName
+          value: this.userName,
+          handler: (value) => {
+            // Prevent default behavior
+            return false;
+          }
         },
         {
           name: 'course',
           type: 'text',
           placeholder: 'Course',
-          value: this.userCourse
+          value: this.userCourse,
+          handler: (value) => {
+            // Prevent default behavior
+            return false;
+          }
         }
       ],
       buttons: [
@@ -61,7 +70,21 @@ export class ProfilePage implements OnInit {
       ]
     });
 
+    // Custom method to prevent blurring
     await alert.present();
+    const alertElement = document.querySelector('ion-alert');
+    
+    // Add event listeners to prevent blurring
+    if (alertElement) {
+      const inputs = alertElement.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.addEventListener('blur', (event) => {
+          event.stopPropagation();
+          event.preventDefault();
+          input.focus(); // Immediately refocus the input
+        });
+      });
+    }
   }
 
   logout() {
